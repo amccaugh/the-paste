@@ -83,7 +83,7 @@ function js_task(debug) {
 					.pipe(source(target))
 					.pipe(buffer())
 					.pipe(sourcemaps.init( { loadMaps: true } ) )
-					.pipe( uglify() )
+					// .pipe( uglify() )
 					.on('error', function (error) {
 						console.error(error.message);
 						// this.emit('end');
