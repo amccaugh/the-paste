@@ -75,7 +75,7 @@ function js_task(debug) {
 					})
 					.transform( babelify.configure({}) )
 					.transform( 'browserify-shim' )
-					.plugin('tinyify')
+					// .plugin('tinyify')
 					.bundle()
 					.pipe(source(target))
 					.pipe( gulp.dest( config.destPath ) );
