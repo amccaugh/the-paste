@@ -132,7 +132,7 @@ const Uploader = {
 			const attachment = args.attachment.attributes
 
 			if ( 'image' === attachment.type ) {
-				newElement.innerHTML = wp.media.string.image( { link: 'none' }, attachment )
+				newElement.innerHTML = wp.media.string.image( { link: 'file' }, attachment )
 			} else if ( 'video' === attachment.type ) {
 				newElement.innerHTML = wp.media.string.video( { link: 'embed' }, attachment )
 			} else if ( 'audio' === attachment.type ) {
