@@ -1,0 +1,7 @@
+
+sudo rm -rf /var/www/html/wordpress/wp-content/plugins/the-paste
+git clone --branch adams-edits https://github.com/amccaugh/the-paste.git
+sudo mv ~/new/the-paste/ /var/www/html/wordpress/wp-content/plugins/the-paste/
+sudo chown www-data:www-data -R /var/www/html/wordpress/wp-content/plugins/the-paste
+sudo chmod -R 755 /var/www/html/wordpress/wp-content/plugins/the-paste
+
