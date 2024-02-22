@@ -1474,7 +1474,7 @@ var Uploader = {
               var attachment = args.attachment.attributes;
               if ('image' === attachment.type) {
                 newElement.innerHTML = wp.media.string.image({
-                  link: 'none'
+                  link: 'file'
                 }, attachment);
               } else if ('video' === attachment.type) {
                 newElement.innerHTML = wp.media.string.video({
