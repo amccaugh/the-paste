@@ -515,8 +515,8 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 var itemHandler = function itemHandler(type) {
-  var _textPlain$applicati;
-  return (_textPlain$applicati = {
+  var _textPlain$textHtml;
+  return (_textPlain$textHtml = {
     'text/plain': function () {
       var _textPlain = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(item) {
         var str, domParser;
@@ -554,27 +554,59 @@ var itemHandler = function itemHandler(type) {
       }
       return textPlain;
     }(),
-    'application/x-vnd.google-docs-image-clip+wrapped': function () {
-      var _applicationXVndGoogleDocsImageClipWrapped = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(item) {
+    'text/html': function () {
+      var _textHtml = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(item) {
+        var div, imgs;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.next = 2;
-              return Converter.gdocsItemToFiles(item);
-            case 2:
-              return _context2.abrupt("return", _context2.sent);
+              div = document.createElement('div');
+              _context2.next = 3;
+              return Converter.itemToString(item);
             case 3:
+              div.innerHTML = _context2.sent;
+              imgs = Array.from(div.querySelectorAll('img')).map(function (img) {
+                return Converter.elementToFile(img);
+              });
+              return _context2.abrupt("return", new Promise(function (resolve, reject) {
+                Promise.allSettled(imgs).then(function (result) {
+                  return resolve(Array.from(result).map(function (promise) {
+                    return promise.value;
+                  }));
+                });
+              }));
+            case 6:
             case "end":
               return _context2.stop();
           }
         }, _callee2);
       }));
-      function applicationXVndGoogleDocsImageClipWrapped(_x2) {
+      function textHtml(_x2) {
+        return _textHtml.apply(this, arguments);
+      }
+      return textHtml;
+    }(),
+    'application/x-vnd.google-docs-image-clip+wrapped': function () {
+      var _applicationXVndGoogleDocsImageClipWrapped = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(item) {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return Converter.gdocsItemToFiles(item);
+            case 2:
+              return _context3.abrupt("return", _context3.sent);
+            case 3:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3);
+      }));
+      function applicationXVndGoogleDocsImageClipWrapped(_x3) {
         return _applicationXVndGoogleDocsImageClipWrapped.apply(this, arguments);
       }
       return applicationXVndGoogleDocsImageClipWrapped;
     }()
-  }[type]) !== null && _textPlain$applicati !== void 0 ? _textPlain$applicati : function () {
+  }[type]) !== null && _textPlain$textHtml !== void 0 ? _textPlain$textHtml : function () {
     return new Promise(function (resolve, reject) {
       return resolve([]);
     });
@@ -600,278 +632,278 @@ var Converter = {
     });
   },
   clipboardItemsToHtml: function () {
-    var _clipboardItemsToHtml = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(clipboardItems) {
+    var _clipboardItemsToHtml = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(clipboardItems) {
       var i, item;
-      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-        while (1) switch (_context3.prev = _context3.next) {
+      return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+        while (1) switch (_context4.prev = _context4.next) {
           case 0:
             i = 0;
           case 1:
             if (!(i < clipboardItems.length)) {
-              _context3.next = 10;
+              _context4.next = 10;
               break;
             }
             item = clipboardItems[i];
             if (!('string' === item.kind && 'text/html' === item.type)) {
-              _context3.next = 7;
+              _context4.next = 7;
               break;
             }
-            _context3.next = 6;
+            _context4.next = 6;
             return Converter.itemToString(item);
           case 6:
-            return _context3.abrupt("return", _context3.sent);
+            return _context4.abrupt("return", _context4.sent);
           case 7:
             i++;
-            _context3.next = 1;
+            _context4.next = 1;
             break;
           case 10:
-            return _context3.abrupt("return", '');
+            return _context4.abrupt("return", '');
           case 11:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
-      }, _callee3);
+      }, _callee4);
     }));
-    function clipboardItemsToHtml(_x3) {
+    function clipboardItemsToHtml(_x4) {
       return _clipboardItemsToHtml.apply(this, arguments);
     }
     return clipboardItemsToHtml;
   }(),
   gdocsItemToSources: function () {
-    var _gdocsItemToSources = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(item) {
-      return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-        while (1) switch (_context5.prev = _context5.next) {
+    var _gdocsItemToSources = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(item) {
+      return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+        while (1) switch (_context6.prev = _context6.next) {
           case 0:
-            return _context5.abrupt("return", new Promise(function (resolve, reject) {
+            return _context6.abrupt("return", new Promise(function (resolve, reject) {
               item.getAsString( /*#__PURE__*/function () {
-                var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(str) {
+                var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(str) {
                   var src;
-                  return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-                    while (1) switch (_context4.prev = _context4.next) {
+                  return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+                    while (1) switch (_context5.prev = _context5.next) {
                       case 0:
                         src = Object.values(JSON.parse(JSON.parse(str).data).image_urls);
                         resolve(src);
                       case 2:
                       case "end":
-                        return _context4.stop();
+                        return _context5.stop();
                     }
-                  }, _callee4);
+                  }, _callee5);
                 }));
-                return function (_x5) {
+                return function (_x6) {
                   return _ref.apply(this, arguments);
                 };
               }());
             }));
           case 1:
           case "end":
-            return _context5.stop();
+            return _context6.stop();
         }
-      }, _callee5);
+      }, _callee6);
     }));
-    function gdocsItemToSources(_x4) {
+    function gdocsItemToSources(_x5) {
       return _gdocsItemToSources.apply(this, arguments);
     }
     return gdocsItemToSources;
   }(),
   gdocsItemToFiles: function () {
-    var _gdocsItemToFiles = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(item) {
+    var _gdocsItemToFiles = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(item) {
       var sources, files;
-      return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-        while (1) switch (_context6.prev = _context6.next) {
+      return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+        while (1) switch (_context7.prev = _context7.next) {
           case 0:
-            _context6.next = 2;
+            _context7.next = 2;
             return Converter.gdocsItemToSources(item);
           case 2:
-            sources = _context6.sent;
+            sources = _context7.sent;
             files = [];
             i = 0;
           case 5:
             if (!(i < sources.length)) {
-              _context6.next = 14;
+              _context7.next = 14;
               break;
             }
-            _context6.t0 = files;
-            _context6.next = 9;
+            _context7.t0 = files;
+            _context7.next = 9;
             return Converter.blobUrlToFile(sources[i]);
           case 9:
-            _context6.t1 = _context6.sent;
-            _context6.t0.push.call(_context6.t0, _context6.t1);
+            _context7.t1 = _context7.sent;
+            _context7.t0.push.call(_context7.t0, _context7.t1);
           case 11:
             i++;
-            _context6.next = 5;
+            _context7.next = 5;
             break;
           case 14:
-            return _context6.abrupt("return", files);
+            return _context7.abrupt("return", files);
           case 15:
           case "end":
-            return _context6.stop();
+            return _context7.stop();
         }
-      }, _callee6);
+      }, _callee7);
     }));
-    function gdocsItemToFiles(_x6) {
+    function gdocsItemToFiles(_x7) {
       return _gdocsItemToFiles.apply(this, arguments);
     }
     return gdocsItemToFiles;
   }(),
   itemToString: function () {
-    var _itemToString = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(item) {
-      return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-        while (1) switch (_context7.prev = _context7.next) {
+    var _itemToString = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(item) {
+      return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+        while (1) switch (_context8.prev = _context8.next) {
           case 0:
-            return _context7.abrupt("return", new Promise(function (resolve, reject) {
+            return _context8.abrupt("return", new Promise(function (resolve, reject) {
               item.getAsString(function (str) {
                 return resolve(str);
               });
             }));
           case 1:
           case "end":
-            return _context7.stop();
+            return _context8.stop();
         }
-      }, _callee7);
+      }, _callee8);
     }));
-    function itemToString(_x7) {
+    function itemToString(_x8) {
       return _itemToString.apply(this, arguments);
     }
     return itemToString;
   }(),
   elementToFile: function () {
-    var _elementToFile = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(el) {
+    var _elementToFile = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(el) {
       var file;
-      return _regeneratorRuntime().wrap(function _callee8$(_context8) {
-        while (1) switch (_context8.prev = _context8.next) {
-          case 0:
-            _context8.next = 2;
-            return Converter.urlToFile(el.src, el.alt);
-          case 2:
-            file = _context8.sent;
-            return _context8.abrupt("return", file);
-          case 4:
-          case "end":
-            return _context8.stop();
-        }
-      }, _callee8);
-    }));
-    function elementToFile(_x8) {
-      return _elementToFile.apply(this, arguments);
-    }
-    return elementToFile;
-  }(),
-  urlToFile: function () {
-    var _urlToFile = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(url) {
-      var filename,
-        file,
-        schema,
-        _args9 = arguments;
       return _regeneratorRuntime().wrap(function _callee9$(_context9) {
         while (1) switch (_context9.prev = _context9.next) {
           case 0:
-            filename = _args9.length > 1 && _args9[1] !== undefined ? _args9[1] : '';
-            schema = url.substr(0, url.indexOf(':'));
-            if (!('data' === schema)) {
-              _context9.next = 6;
-              break;
-            }
-            file = Converter.dataUrlToFile(url, filename);
-            _context9.next = 10;
-            break;
-          case 6:
-            if (!['blob', 'http', 'https'].includes(schema)) {
-              _context9.next = 10;
-              break;
-            }
-            _context9.next = 9;
-            return Converter.blobUrlToFile(url, filename);
-          case 9:
+            _context9.next = 2;
+            return Converter.urlToFile(el.src, el.alt);
+          case 2:
             file = _context9.sent;
-          case 10:
             return _context9.abrupt("return", file);
-          case 11:
+          case 4:
           case "end":
             return _context9.stop();
         }
       }, _callee9);
     }));
-    function urlToFile(_x9) {
-      return _urlToFile.apply(this, arguments);
+    function elementToFile(_x9) {
+      return _elementToFile.apply(this, arguments);
     }
-    return urlToFile;
+    return elementToFile;
   }(),
-  urlToMime: function () {
-    var _urlToMime = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10(url) {
-      var schema, mime;
+  urlToFile: function () {
+    var _urlToFile = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10(url) {
+      var filename,
+        file,
+        schema,
+        _args10 = arguments;
       return _regeneratorRuntime().wrap(function _callee10$(_context10) {
         while (1) switch (_context10.prev = _context10.next) {
           case 0:
+            filename = _args10.length > 1 && _args10[1] !== undefined ? _args10[1] : '';
             schema = url.substr(0, url.indexOf(':'));
             if (!('data' === schema)) {
-              _context10.next = 5;
+              _context10.next = 6;
               break;
             }
-            mime = Converter.dataUrlToMime(url);
-            _context10.next = 9;
+            file = Converter.dataUrlToFile(url, filename);
+            _context10.next = 10;
             break;
-          case 5:
+          case 6:
             if (!['blob', 'http', 'https'].includes(schema)) {
-              _context10.next = 9;
+              _context10.next = 10;
               break;
             }
-            _context10.next = 8;
-            return Converter.blobUrlToMime(url);
-          case 8:
-            mime = _context10.sent;
+            _context10.next = 9;
+            return Converter.blobUrlToFile(url, filename);
           case 9:
-            return _context10.abrupt("return", mime);
+            file = _context10.sent;
           case 10:
+            return _context10.abrupt("return", file);
+          case 11:
           case "end":
             return _context10.stop();
         }
       }, _callee10);
     }));
-    function urlToMime(_x10) {
-      return _urlToMime.apply(this, arguments);
+    function urlToFile(_x10) {
+      return _urlToFile.apply(this, arguments);
     }
-    return urlToMime;
+    return urlToFile;
   }(),
-  urlToType: function () {
-    var _urlToType = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11(url) {
-      var mime;
+  urlToMime: function () {
+    var _urlToMime = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11(url) {
+      var schema, mime;
       return _regeneratorRuntime().wrap(function _callee11$(_context11) {
         while (1) switch (_context11.prev = _context11.next) {
           case 0:
-            _context11.next = 2;
-            return Converter.urlToMime(url);
-          case 2:
+            schema = url.substr(0, url.indexOf(':'));
+            if (!('data' === schema)) {
+              _context11.next = 5;
+              break;
+            }
+            mime = Converter.dataUrlToMime(url);
+            _context11.next = 9;
+            break;
+          case 5:
+            if (!['blob', 'http', 'https'].includes(schema)) {
+              _context11.next = 9;
+              break;
+            }
+            _context11.next = 8;
+            return Converter.blobUrlToMime(url);
+          case 8:
             mime = _context11.sent;
-            return _context11.abrupt("return", mime.substr(0, mime.indexOf('/')));
-          case 4:
+          case 9:
+            return _context11.abrupt("return", mime);
+          case 10:
           case "end":
             return _context11.stop();
         }
       }, _callee11);
     }));
-    function urlToType(_x11) {
-      return _urlToType.apply(this, arguments);
+    function urlToMime(_x11) {
+      return _urlToMime.apply(this, arguments);
     }
-    return urlToType;
+    return urlToMime;
   }(),
-  urlToBlobUrl: function () {
-    var _urlToBlobUrl = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee12(url) {
-      var file;
+  urlToType: function () {
+    var _urlToType = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee12(url) {
+      var mime;
       return _regeneratorRuntime().wrap(function _callee12$(_context12) {
         while (1) switch (_context12.prev = _context12.next) {
           case 0:
             _context12.next = 2;
-            return Converter.blobUrlToFile(url);
+            return Converter.urlToMime(url);
           case 2:
-            file = _context12.sent;
-            return _context12.abrupt("return", Converter.fileToBlobUrl(file));
+            mime = _context12.sent;
+            return _context12.abrupt("return", mime.substr(0, mime.indexOf('/')));
           case 4:
           case "end":
             return _context12.stop();
         }
       }, _callee12);
     }));
-    function urlToBlobUrl(_x12) {
+    function urlToType(_x12) {
+      return _urlToType.apply(this, arguments);
+    }
+    return urlToType;
+  }(),
+  urlToBlobUrl: function () {
+    var _urlToBlobUrl = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee13(url) {
+      var file;
+      return _regeneratorRuntime().wrap(function _callee13$(_context13) {
+        while (1) switch (_context13.prev = _context13.next) {
+          case 0:
+            _context13.next = 2;
+            return Converter.blobUrlToFile(url);
+          case 2:
+            file = _context13.sent;
+            return _context13.abrupt("return", Converter.fileToBlobUrl(file));
+          case 4:
+          case "end":
+            return _context13.stop();
+        }
+      }, _callee13);
+    }));
+    function urlToBlobUrl(_x13) {
       return _urlToBlobUrl.apply(this, arguments);
     }
     return urlToBlobUrl;
@@ -888,29 +920,7 @@ var Converter = {
     });
   },
   blobUrlToMime: function () {
-    var _blobUrlToMime = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee13(blobUrl) {
-      var blob;
-      return _regeneratorRuntime().wrap(function _callee13$(_context13) {
-        while (1) switch (_context13.prev = _context13.next) {
-          case 0:
-            _context13.next = 2;
-            return Converter.blobUrlToBlob(blobUrl);
-          case 2:
-            blob = _context13.sent;
-            return _context13.abrupt("return", blob.type);
-          case 4:
-          case "end":
-            return _context13.stop();
-        }
-      }, _callee13);
-    }));
-    function blobUrlToMime(_x13) {
-      return _blobUrlToMime.apply(this, arguments);
-    }
-    return blobUrlToMime;
-  }(),
-  blobUrlToType: function () {
-    var _blobUrlToType = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee14(blobUrl) {
+    var _blobUrlToMime = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee14(blobUrl) {
       var blob;
       return _regeneratorRuntime().wrap(function _callee14$(_context14) {
         while (1) switch (_context14.prev = _context14.next) {
@@ -919,47 +929,42 @@ var Converter = {
             return Converter.blobUrlToBlob(blobUrl);
           case 2:
             blob = _context14.sent;
-            return _context14.abrupt("return", blob.type.substr(0, blob.type.indexOf('/')));
+            return _context14.abrupt("return", blob.type);
           case 4:
           case "end":
             return _context14.stop();
         }
       }, _callee14);
     }));
-    function blobUrlToType(_x14) {
-      return _blobUrlToType.apply(this, arguments);
+    function blobUrlToMime(_x14) {
+      return _blobUrlToMime.apply(this, arguments);
     }
-    return blobUrlToType;
+    return blobUrlToMime;
   }(),
-  blobUrlToBlob: function () {
-    var _blobUrlToBlob = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee15(blobUrl) {
-      var filename,
-        blob,
-        _args15 = arguments;
+  blobUrlToType: function () {
+    var _blobUrlToType = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee15(blobUrl) {
+      var blob;
       return _regeneratorRuntime().wrap(function _callee15$(_context15) {
         while (1) switch (_context15.prev = _context15.next) {
           case 0:
-            filename = _args15.length > 1 && _args15[1] !== undefined ? _args15[1] : '';
-            _context15.next = 3;
-            return fetch(blobUrl).then(function (r) {
-              return r.blob();
-            });
-          case 3:
+            _context15.next = 2;
+            return Converter.blobUrlToBlob(blobUrl);
+          case 2:
             blob = _context15.sent;
-            return _context15.abrupt("return", blob);
-          case 5:
+            return _context15.abrupt("return", blob.type.substr(0, blob.type.indexOf('/')));
+          case 4:
           case "end":
             return _context15.stop();
         }
       }, _callee15);
     }));
-    function blobUrlToBlob(_x15) {
-      return _blobUrlToBlob.apply(this, arguments);
+    function blobUrlToType(_x15) {
+      return _blobUrlToType.apply(this, arguments);
     }
-    return blobUrlToBlob;
+    return blobUrlToType;
   }(),
-  blobUrlToFile: function () {
-    var _blobUrlToFile = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee16(blobUrl) {
+  blobUrlToBlob: function () {
+    var _blobUrlToBlob = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee16(blobUrl) {
       var filename,
         blob,
         _args16 = arguments;
@@ -968,45 +973,72 @@ var Converter = {
           case 0:
             filename = _args16.length > 1 && _args16[1] !== undefined ? _args16[1] : '';
             _context16.next = 3;
-            return Converter.blobUrlToBlob(blobUrl);
+            return fetch(blobUrl).then(function (r) {
+              return r.blob();
+            });
           case 3:
             blob = _context16.sent;
-            return _context16.abrupt("return", Converter.blobToFile(blob, filename));
+            return _context16.abrupt("return", blob);
           case 5:
           case "end":
             return _context16.stop();
         }
       }, _callee16);
     }));
-    function blobUrlToFile(_x16) {
-      return _blobUrlToFile.apply(this, arguments);
+    function blobUrlToBlob(_x16) {
+      return _blobUrlToBlob.apply(this, arguments);
     }
-    return blobUrlToFile;
+    return blobUrlToBlob;
   }(),
-  blobUrlToDataUrl: function () {
-    var _blobUrlToDataUrl = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee17(blobUrl) {
-      var blob, dataurl;
+  blobUrlToFile: function () {
+    var _blobUrlToFile = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee17(blobUrl) {
+      var filename,
+        blob,
+        _args17 = arguments;
       return _regeneratorRuntime().wrap(function _callee17$(_context17) {
         while (1) switch (_context17.prev = _context17.next) {
           case 0:
-            _context17.next = 2;
-            return fetch(blobUrl).then(function (r) {
-              return r.blob();
-            });
-          case 2:
+            filename = _args17.length > 1 && _args17[1] !== undefined ? _args17[1] : '';
+            _context17.next = 3;
+            return Converter.blobUrlToBlob(blobUrl);
+          case 3:
             blob = _context17.sent;
-            _context17.next = 5;
-            return Converter.fileToDataUrl(blob);
+            return _context17.abrupt("return", Converter.blobToFile(blob, filename));
           case 5:
-            dataurl = _context17.sent;
-            return _context17.abrupt("return", dataurl);
-          case 7:
           case "end":
             return _context17.stop();
         }
       }, _callee17);
     }));
-    function blobUrlToDataUrl(_x17) {
+    function blobUrlToFile(_x17) {
+      return _blobUrlToFile.apply(this, arguments);
+    }
+    return blobUrlToFile;
+  }(),
+  blobUrlToDataUrl: function () {
+    var _blobUrlToDataUrl = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee18(blobUrl) {
+      var blob, dataurl;
+      return _regeneratorRuntime().wrap(function _callee18$(_context18) {
+        while (1) switch (_context18.prev = _context18.next) {
+          case 0:
+            _context18.next = 2;
+            return fetch(blobUrl).then(function (r) {
+              return r.blob();
+            });
+          case 2:
+            blob = _context18.sent;
+            _context18.next = 5;
+            return Converter.fileToDataUrl(blob);
+          case 5:
+            dataurl = _context18.sent;
+            return _context18.abrupt("return", dataurl);
+          case 7:
+          case "end":
+            return _context18.stop();
+        }
+      }, _callee18);
+    }));
+    function blobUrlToDataUrl(_x18) {
       return _blobUrlToDataUrl.apply(this, arguments);
     }
     return blobUrlToDataUrl;

@@ -16,6 +16,15 @@ const itemHandler = type => {
 			}
 			return []
 		},
+		'text/html': async item => {
+			const div = document.createElement('div')
+			div.innerHTML = await Converter.itemToString( item )
+
+			const imgs = Array.from( div.querySelectorAll('img') ).map( img => Converter.elementToFile(img) )
+			return new Promise( (resolve,reject) => {
+				Promise.allSettled( imgs ).then( result => resolve( Array.from(result).map( promise => promise.value )) )
+			})
+		},
 		'application/x-vnd.google-docs-image-clip+wrapped': async item => await Converter.gdocsItemToFiles( item ),
 	}[type]??(()=>new Promise((resolve,reject)=>resolve([])))
 }
