@@ -21,8 +21,7 @@
   height: 23px;
   width: 2px;
   background-color: #d63638;
-  -webkit-transform: translateX(-10px) rotate(45deg);
-          transform: translateX(-10px) rotate(45deg);
+  transform: translateX(-10px) rotate(45deg);
   display: inline-block;
 }
 .mce-i-thepaste_onoff::before {
